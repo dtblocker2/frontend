@@ -1,0 +1,79 @@
+/* Universal Selector */
+* {
+    /* all sides have margin and padding as 0px */
+    margin: 0;
+    padding: 0;
+    /* Box sizing is  */
+    box-sizing: border-box;
+}
+
+/* Type selector */
+p {
+    font-size: 16px;
+    color: crimson;
+    /* value of margin from top in clockwise */
+    margin: 10px 20px 15px 20px;
+    /* First value top and bottom second value is left and right */
+    padding: 10px 20px;
+}
+
+/* class selector */
+.heading1 {
+    background-color: aqua;
+}
+
+/* ID Selector */
+#heading2 {
+    background-color: yellow;
+}
+
+/* Attribute selector */
+/* only applied to input have text type and not email type */
+input[type="text"] {
+    display: block;
+    border: 3px solid purple;
+}
+
+/* Descendent selectors */
+.parent .child .descendant {
+    color: darkkhaki;
+}
+/* Structure ==> article>p>Lorem15+(div.text>p>Lorem15)+p>Lorem15
+All p under article will be stylized even that under div */
+article p {
+    color: darkcyan;
+}
+/* All only bottom level p will be styled */
+article div p {
+    font-style: italic;
+}
+
+/* child selectors */
+/* Structure ==> div>p{direct child}+(p{direct child})+section>p>{not direct child}
+only direct child are colored and not non direct child */
+div > p {
+    color: blue;
+}
+
+/* Adjacent Sibling selector */
+/* Structure ==> div.text2>(p>Lorem10)+h1{LoL} */
+.text2 > p + h1{
+    color: cyan;
+}
+
+/* Pseudo Class Selector */
+a:hover {
+    background-color: greenyellow;
+    text-decoration: none;
+}
+
+/* Pseudo Element Selector */
+p::first-letter {
+    font-size: 30px;
+}
+
+/* Grouping Selector */
+h1,
+p {
+    text-decoration: line-through;
+}

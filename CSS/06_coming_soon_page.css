@@ -1,0 +1,80 @@
+/* make html height 100 to make page occupy 100% of screen height */
+/* in context of html 100% height equals to 100vh but in case of body or any other container 100% height is 100% of parent's height and not of 10vh ie 100% screen height */
+
+html {
+  height: 100%;
+}
+
+/* setting body height = 100% doesnot cover 100% of webpage rather it cover 100% of html container height actually height of html decide height of webpage */
+body {
+  margin: 0;
+  padding: 0;
+  /* box-sizing: border-box; */
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* above code is used repetitive so make a boiler plate of above */
+
+.container {
+  /* do not use background-color if you need to use linear colors */
+  background: linear-gradient(135deg, #8a2be2, #4169e1);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  text-align: center;
+  background-color: #ffffffe6;
+  /* rem means relative to m so basically it depends upon font size one unit rem is width of character 'm' of that font */
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 400px;
+}
+
+.logo {
+  width: 150px;
+  /* height: 100px; */
+  object-fit: contain;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="email"] {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 20px;
+  background-color: #8a2be2;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(28, 28, 28, 0.9);
+  transition: background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+}
+
+button:hover {
+  background-color: #b872fa;
+  box-shadow: 0 4px 6px rgba(223, 44, 255, 0.9);
+}
