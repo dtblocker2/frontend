@@ -103,3 +103,6 @@ console.log(typeof merge3);
 console.log(arr1.includes(1));
 console.log(arr2.includes(1));
 console.log(arr1*2); //return NaN
+
+// Creating Long arrays
+var poinstStylingArr = Array(299).fill(0).concat([10]); // array with 299 zeros and 10 at end

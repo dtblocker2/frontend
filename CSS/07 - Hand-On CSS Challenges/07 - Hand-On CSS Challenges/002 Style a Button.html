@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Coding Assignment</title>
+
+        <style>
+            body {
+                font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial,
+                    sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+                font-weight: 400;
+                line-height: 22.4px;
+                font-size: 16px;
+            }
+            p,
+            ul,
+            ol {
+                font-size: 16px;
+                font-weight: 400;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-weight: bold;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
+            .code-snippet {
+                background-color: #fff;
+                border: 1px solid #d1d7dc;
+                color: #b4690e;
+                font-size: 90%;
+                padding: 0.2rem 0.4rem;
+            }
+            .code-block {
+                background-color: #fff;
+                color: #b4690e;
+                font-size: 90%;
+            }
+            .black-block {
+                color: #000000;
+            }
+            .italic-text {
+                font-style: italic;
+            }
+        </style>
+    </head>
+
+    <body onload="main()">
+        <h1 id="coding-title"></h1>
+        <div>
+            <h2>Instructions</h2>
+            <div id="coding-instructions"></div>
+        </div>
+        <div>
+            <h2>Test(s)</h2>
+            <div id="coding-tests"></div>
+        </div>
+        <div>
+            <h2>Solution(s)</h2>
+            <div id="coding-solutions"></div>
+        </div>
+
+        <script>
+            const quizData = {"title": "002 Style a Button", "hasInstructions": true, "hasTests": true, "hasSolutions": true, "instructions": "<p><strong>Task:</strong> Style a button to have a blue background, white text, and rounded corners.</p><p><strong>Instructions:</strong></p><ul><li><p>Use the <code>background-color</code>, <code>color</code>, and <code>border-radius</code> properties to style the button.</p></li><li><p>Apply padding for better appearance.</p></li><li><p>Keep the following values for the attributes:</p><ul><li><p>Background color must be <strong>blue</strong></p></li><li><p>Text color must be <strong>white</strong></p></li><li><p>vertical padding must be <strong>10px</strong></p></li><li><p>Horizontal padding must be <strong>20px</strong></p></li><li><p>Border radius must be <strong>5px</strong></p></li><li><p>Border must be <strong>none</strong></p></li></ul></li></ul>", "tests": [{"file_name": "evaluate.js", "content": "describe('styled button', function() {\r\n    var button = document.querySelector('.styled-button');\r\n\r\n    it('should have a blue background', function() {\r\n        expect(window.getComputedStyle(button).backgroundColor).toBe('rgb(0, 0, 255)');\r\n    });\r\n\r\n    it('should have white text', function() {\r\n        expect(window.getComputedStyle(button).color).toBe('rgb(255, 255, 255)');\r\n    });\r\n\r\n    it('should have rounded corners', function() {\r\n        expect(window.getComputedStyle(button).borderRadius).toBe('5px');\r\n    });\r\n\r\n    it('should have padding of 10px 20px', function() {\r\n        expect(window.getComputedStyle(button).padding).toBe('10px 20px');\r\n    });\r\n});\r\n"}], "solutions": [{"file_name": "index.html", "content": "<html>\r\n    <head>\r\n        <style>\r\n            .styled-button {\r\n                background-color: blue;\r\n                color: white;\r\n                border-radius: 5px;\r\n                padding: 10px 20px;\r\n                border: none;\r\n            }\r\n        </style>\r\n    </head>\r\n    <body>\r\n        <button class=\"styled-button\">Click Me</button>\r\n    </body>\r\n</html>\r\n"}]};
+
+            function renderCodeList(rootElement, codeList, className, titlePrefix) {
+                for (var i = 0; i < codeList.length; i++) {
+                    var elem = codeList[i];
+                    var jsElem = document.createElement("div");
+                    jsElem.className = className;
+                    var jsElemTitle = document.createElement("h3");
+                    jsElemTitle.innerHTML = titlePrefix + " " + (i + 1);
+                    var jsElemBody = document.createElement("code");
+                    jsElemBody.className = "code-block black-block";
+                    jsElemBody.innerHTML = "<pre>" + elem.content + "</pre>";
+                    jsElem.appendChild(jsElemTitle);
+                    jsElem.appendChild(jsElemBody);
+                    rootElement.appendChild(jsElem);
+                }
+            }
+
+            function main() {
+                // display the assignment
+                var codingTitle = document.getElementById("coding-title");
+                codingTitle.innerHTML = quizData.title;
+
+                var codingInstructions = document.getElementById("coding-instructions");
+                if (quizData.hasInstructions) {
+                    codingInstructions.innerHTML = quizData.instructions;
+                } else {
+                    codingInstructions.innerHTML = '<span class="italic-text">' + quizData.instructions + "</span>";
+                }
+
+                // display the test(s)
+                var codingTests = document.getElementById("coding-tests");
+                if (!quizData.hasTests) {
+                    codingTests.innerHTML = '<span class="italic-text">' + quizData.tests + "</span>";
+                } else {
+                    renderCodeList(codingTests, quizData.tests, "coding-test", "Test");
+                }
+
+                // display the solution(s)
+                var codingSolutions = document.getElementById("coding-solutions");
+                if (!quizData.hasSolutions) {
+                    codingSolutions.innerHTML = '<span class="italic-text">' + quizData.solutions + "</span>";
+                } else {
+                    renderCodeList(codingSolutions, quizData.solutions, "coding-solution", "Solution");
+                }
+            }
+        </script>
+    </body>
+</html>

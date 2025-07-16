@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Coding Assignment</title>
+
+        <style>
+            body {
+                font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial,
+                    sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+                font-weight: 400;
+                line-height: 22.4px;
+                font-size: 16px;
+            }
+            p,
+            ul,
+            ol {
+                font-size: 16px;
+                font-weight: 400;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-weight: bold;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
+            .code-snippet {
+                background-color: #fff;
+                border: 1px solid #d1d7dc;
+                color: #b4690e;
+                font-size: 90%;
+                padding: 0.2rem 0.4rem;
+            }
+            .code-block {
+                background-color: #fff;
+                color: #b4690e;
+                font-size: 90%;
+            }
+            .black-block {
+                color: #000000;
+            }
+            .italic-text {
+                font-style: italic;
+            }
+        </style>
+    </head>
+
+    <body onload="main()">
+        <h1 id="coding-title"></h1>
+        <div>
+            <h2>Instructions</h2>
+            <div id="coding-instructions"></div>
+        </div>
+        <div>
+            <h2>Test(s)</h2>
+            <div id="coding-tests"></div>
+        </div>
+        <div>
+            <h2>Solution(s)</h2>
+            <div id="coding-solutions"></div>
+        </div>
+
+        <script>
+            const quizData = {"title": "009 Create a Responsive Flexbox Layout", "hasInstructions": true, "hasTests": true, "hasSolutions": true, "instructions": "<p><strong>Task:</strong> Create a simple responsive layout using Flexbox where three boxes are aligned horizontally, centered both vertically and horizontally within the container, and wrap to the next line on smaller screens.</p><p><strong>Instructions:</strong></p><ul><li><p>Create a container <code>div</code> with the class name <code>flex-container</code>.</p></li><li><p>Inside the container, create three <code>div</code> elements with the class name <code>flex-item</code>.</p></li><li><p>Apply Flexbox properties to:</p><ul><li><p>Center the items horizontally and vertically.</p></li><li><p>Ensure the items are spaced evenly within the container.</p></li><li><p>Allow the items to wrap to the next line when the screen width is reduced.</p></li></ul></li><li><p>Style each <code>flex-item</code> with a fixed width and height, and give each one a red background color for distinction. Give a yellow color to the parent div for distinction.</p></li></ul>", "tests": [{"file_name": "evaluate.js", "content": "describe('flexbox layout', function() {\r\n    var container = document.querySelector('.flex-container');\r\n    var items = document.querySelectorAll('.flex-item');\r\n\r\n    it('should have a flex container with flex display', function() {\r\n        expect(window.getComputedStyle(container).display).toBe('flex');\r\n    });\r\n\r\n    it('should center items horizontally and vertically', function() {\r\n        expect(window.getComputedStyle(container).justifyContent).toBe('center');\r\n        expect(window.getComputedStyle(container).alignItems).toBe('center');\r\n    });\r\n\r\n    it('should have flex items with correct dimensions', function() {\r\n        items.forEach(function(item) {\r\n            expect(window.getComputedStyle(item).width).toBe('200px');\r\n            expect(window.getComputedStyle(item).height).toBe('200px');\r\n        });\r\n    });\r\n\r\n    it('should wrap items to the next line on smaller screens', function() {\r\n        container.style.width = '400px';\r\n        expect(items[2].getBoundingClientRect().top).toBeGreaterThan(items[0].getBoundingClientRect().top);\r\n    });\r\n});\r\n"}], "solutions": [{"file_name": "index.html", "content": "<html>\n    <head>\n        <style>\n            .flex-container {\n                display: flex;\n                justify-content: center;\n                align-items: center;\n                flex-wrap: wrap;\n                width: 100%;\n                height: 100vh;\n                background-color: yellow;\n            }\n\n            .flex-item {\n                width: 200px;\n                height: 200px;\n                margin: 10px;\n                text-align: center;\n                line-height: 200px;\n                color: white;\n                font-size: 20px;\n                background-color: red;\n            }\n        </style>\n    </head>\n    <body>\n        <div class=\"flex-container\">\n            <div class=\"flex-item\">1</div>\n            <div class=\"flex-item\">2</div>\n            <div class=\"flex-item\">3</div>\n        </div>\n    </body>\n</html>\n\n\n"}]};
+
+            function renderCodeList(rootElement, codeList, className, titlePrefix) {
+                for (var i = 0; i < codeList.length; i++) {
+                    var elem = codeList[i];
+                    var jsElem = document.createElement("div");
+                    jsElem.className = className;
+                    var jsElemTitle = document.createElement("h3");
+                    jsElemTitle.innerHTML = titlePrefix + " " + (i + 1);
+                    var jsElemBody = document.createElement("code");
+                    jsElemBody.className = "code-block black-block";
+                    jsElemBody.innerHTML = "<pre>" + elem.content + "</pre>";
+                    jsElem.appendChild(jsElemTitle);
+                    jsElem.appendChild(jsElemBody);
+                    rootElement.appendChild(jsElem);
+                }
+            }
+
+            function main() {
+                // display the assignment
+                var codingTitle = document.getElementById("coding-title");
+                codingTitle.innerHTML = quizData.title;
+
+                var codingInstructions = document.getElementById("coding-instructions");
+                if (quizData.hasInstructions) {
+                    codingInstructions.innerHTML = quizData.instructions;
+                } else {
+                    codingInstructions.innerHTML = '<span class="italic-text">' + quizData.instructions + "</span>";
+                }
+
+                // display the test(s)
+                var codingTests = document.getElementById("coding-tests");
+                if (!quizData.hasTests) {
+                    codingTests.innerHTML = '<span class="italic-text">' + quizData.tests + "</span>";
+                } else {
+                    renderCodeList(codingTests, quizData.tests, "coding-test", "Test");
+                }
+
+                // display the solution(s)
+                var codingSolutions = document.getElementById("coding-solutions");
+                if (!quizData.hasSolutions) {
+                    codingSolutions.innerHTML = '<span class="italic-text">' + quizData.solutions + "</span>";
+                } else {
+                    renderCodeList(codingSolutions, quizData.solutions, "coding-solution", "Solution");
+                }
+            }
+        </script>
+    </body>
+</html>

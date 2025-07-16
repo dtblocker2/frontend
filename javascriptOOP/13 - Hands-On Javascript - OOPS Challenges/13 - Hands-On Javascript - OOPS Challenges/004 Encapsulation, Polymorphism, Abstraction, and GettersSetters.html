@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Coding Assignment</title>
+
+        <style>
+            body {
+                font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial,
+                    sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+                font-weight: 400;
+                line-height: 22.4px;
+                font-size: 16px;
+            }
+            p,
+            ul,
+            ol {
+                font-size: 16px;
+                font-weight: 400;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-weight: bold;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
+            .code-snippet {
+                background-color: #fff;
+                border: 1px solid #d1d7dc;
+                color: #b4690e;
+                font-size: 90%;
+                padding: 0.2rem 0.4rem;
+            }
+            .code-block {
+                background-color: #fff;
+                color: #b4690e;
+                font-size: 90%;
+            }
+            .black-block {
+                color: #000000;
+            }
+            .italic-text {
+                font-style: italic;
+            }
+        </style>
+    </head>
+
+    <body onload="main()">
+        <h1 id="coding-title"></h1>
+        <div>
+            <h2>Instructions</h2>
+            <div id="coding-instructions"></div>
+        </div>
+        <div>
+            <h2>Test(s)</h2>
+            <div id="coding-tests"></div>
+        </div>
+        <div>
+            <h2>Solution(s)</h2>
+            <div id="coding-solutions"></div>
+        </div>
+
+        <script>
+            const quizData = {"title": "004 Encapsulation, Polymorphism, Abstraction, and GettersSetters", "hasInstructions": true, "hasTests": true, "hasSolutions": true, "instructions": "<p><strong>Task 1: Encapsulation Using Getters and Setters</strong></p><p>Create a class BankAccount with a private property _balance. Add methods <code>deposit(amount)</code> and <code>withdraw(amount)</code>. Use getters and setters to access and modify the _balance while ensuring the balance never goes negative.</p><p><br></p><p><strong>Task 2: Polymorphism with Method Overriding</strong></p><p>Create a class Shape with a method <code>area()</code> that returns 0. Create two subclasses Circle and Rectangle that override the <code>area()</code> method to calculate the area of a circle and a rectangle, respectively.</p><p><br></p>", "tests": [{"file_name": "evaluate.js", "content": "describe('subject', function() {\n    it('BankAccount should encapsulate balance and use getters/setters', function () {\n  const account = new BankAccount(100);\n  expect(account.balance).toBe(100);\n\n  account.deposit(50);\n  expect(account.balance).toBe(150);\n\n  account.withdraw(30);\n  expect(account.balance).toBe(120);\n\n  expect(() => account.withdraw(200)).toThrow(Error('Insufficient funds'));\n  expect(() => { account.balance = -50 }).toThrow(Error('Balance cannot be negative'));\n});\n\nit('Circle and Rectangle should override area() method', function () {\n  const circle = new Circle(5);\n  const rectangle = new Rectangle(4, 6);\n\n  expect(circle.area()).toBeCloseTo(78.54, 2); // Area of circle\n  expect(rectangle.area()).toBe(24); // Area of rectangle\n  const shape = new Shape();\n  expect(shape.area()).toBe(0); // Default area\n});\n});"}], "solutions": [{"file_name": "index.js", "content": "// Task 1\nclass BankAccount {\n  constructor(balance = 0) {\n    this._balance = balance;\n  }\n\n  get balance() {\n    return this._balance;\n  }\n\n  set balance(amount) {\n    if (amount < 0) {\n      throw new Error('Balance cannot be negative');\n    }\n    this._balance = amount;\n  }\n\n  deposit(amount) {\n    this._balance += amount;\n  }\n\n  withdraw(amount) {\n    if (amount > this._balance) {\n      throw new Error('Insufficient funds');\n    }\n    this._balance -= amount;\n  }\n}\n\nclass Shape {\n  area() {\n    return 0;\n  }\n}\n\n// Task 2\nclass Circle extends Shape {\n  constructor(radius) {\n    super();\n    this.radius = radius;\n  }\n\n  area() {\n    return Math.PI * this.radius * this.radius;\n  }\n}\n\nclass Rectangle extends Shape {\n  constructor(width, height) {\n    super();\n    this.width = width;\n    this.height = height;\n  }\n\n  area() {\n    return this.width * this.height;\n  }\n}"}]};
+
+            function renderCodeList(rootElement, codeList, className, titlePrefix) {
+                for (var i = 0; i < codeList.length; i++) {
+                    var elem = codeList[i];
+                    var jsElem = document.createElement("div");
+                    jsElem.className = className;
+                    var jsElemTitle = document.createElement("h3");
+                    jsElemTitle.innerHTML = titlePrefix + " " + (i + 1);
+                    var jsElemBody = document.createElement("code");
+                    jsElemBody.className = "code-block black-block";
+                    jsElemBody.innerHTML = "<pre>" + elem.content + "</pre>";
+                    jsElem.appendChild(jsElemTitle);
+                    jsElem.appendChild(jsElemBody);
+                    rootElement.appendChild(jsElem);
+                }
+            }
+
+            function main() {
+                // display the assignment
+                var codingTitle = document.getElementById("coding-title");
+                codingTitle.innerHTML = quizData.title;
+
+                var codingInstructions = document.getElementById("coding-instructions");
+                if (quizData.hasInstructions) {
+                    codingInstructions.innerHTML = quizData.instructions;
+                } else {
+                    codingInstructions.innerHTML = '<span class="italic-text">' + quizData.instructions + "</span>";
+                }
+
+                // display the test(s)
+                var codingTests = document.getElementById("coding-tests");
+                if (!quizData.hasTests) {
+                    codingTests.innerHTML = '<span class="italic-text">' + quizData.tests + "</span>";
+                } else {
+                    renderCodeList(codingTests, quizData.tests, "coding-test", "Test");
+                }
+
+                // display the solution(s)
+                var codingSolutions = document.getElementById("coding-solutions");
+                if (!quizData.hasSolutions) {
+                    codingSolutions.innerHTML = '<span class="italic-text">' + quizData.solutions + "</span>";
+                } else {
+                    renderCodeList(codingSolutions, quizData.solutions, "coding-solution", "Solution");
+                }
+            }
+        </script>
+    </body>
+</html>

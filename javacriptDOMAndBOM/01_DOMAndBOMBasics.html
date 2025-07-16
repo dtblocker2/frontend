@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01 Basics of DOM Bom</title>
+    <!-- attaching js file to html file -->
+    <!-- load js here if want to initialise script before contents are loaded if you want to load it after DOM content is loaded either move it to bottom or add defer keyword like -->
+    <script defer src="01_DOMAndBOMBasics.js"></script>
+  </head>
+  <body>
+    <h1>Lorem ipsum dolor sit amet.</h1>
+  </body>
+  <!-- js at end example 
+  <script src="01_DOMAndBOMBasics.js"></script>
+
+  morover if you want to select elements then make sure your script block is below your html code or else element selectors like document.getElementById('') will return null
+  if you load script 2 times in html then it will run 2 times -->
+</html>

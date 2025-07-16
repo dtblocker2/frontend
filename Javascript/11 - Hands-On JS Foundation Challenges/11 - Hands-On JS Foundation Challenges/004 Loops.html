@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Coding Assignment</title>
+
+        <style>
+            body {
+                font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial,
+                    sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+                font-weight: 400;
+                line-height: 22.4px;
+                font-size: 16px;
+            }
+            p,
+            ul,
+            ol {
+                font-size: 16px;
+                font-weight: 400;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-weight: bold;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
+            .code-snippet {
+                background-color: #fff;
+                border: 1px solid #d1d7dc;
+                color: #b4690e;
+                font-size: 90%;
+                padding: 0.2rem 0.4rem;
+            }
+            .code-block {
+                background-color: #fff;
+                color: #b4690e;
+                font-size: 90%;
+            }
+            .black-block {
+                color: #000000;
+            }
+            .italic-text {
+                font-style: italic;
+            }
+        </style>
+    </head>
+
+    <body onload="main()">
+        <h1 id="coding-title"></h1>
+        <div>
+            <h2>Instructions</h2>
+            <div id="coding-instructions"></div>
+        </div>
+        <div>
+            <h2>Test(s)</h2>
+            <div id="coding-tests"></div>
+        </div>
+        <div>
+            <h2>Solution(s)</h2>
+            <div id="coding-solutions"></div>
+        </div>
+
+        <script>
+            const quizData = {"title": "004 Loops", "hasInstructions": true, "hasTests": true, "hasSolutions": true, "instructions": "<p><strong>Task 1: Sum of First N Natural Numbers</strong></p><p>Write a function <code>sumOfN(n)</code> that returns the sum of the first n natural numbers</p><p><br></p><p><strong>Task 2: Multiplication Table</strong></p><p>Write a function <code>printMultiplicationTable(n)</code> that returns the multiplication table for n. Values return in the array must be of the format <strong>2 * 2 = 4</strong></p><p><br></p><p><strong>Task 3: Count Vowels in a String</strong></p><p>Write a function <code>countVowels(str)</code> that returns the number of vowels (in both lower &amp;&nbsp;uppercase) in the given string str.</p>", "tests": [{"file_name": "evaluate.js", "content": "describe('subject', function() {\n    it('should return the sum of the first N natural numbers', function () {\n        expect(sumOfN(5)).toBe(15);\n        expect(sumOfN(10)).toBe(55);\n    });\n    \n    it('should return the multiplication table for a number', function () {\n        expect(printMultiplicationTable(2)).toEqual([\n            '2 * 1 = 2',\n            '2 * 2 = 4',\n            '2 * 3 = 6',\n            '2 * 4 = 8',\n            '2 * 5 = 10',\n            '2 * 6 = 12',\n            '2 * 7 = 14',\n            '2 * 8 = 16',\n            '2 * 9 = 18',\n            '2 * 10 = 20']);\n    });\n    \n    it('should return the number of vowels in a string', function () {\n        expect(countVowels('hello')).toBe(2);\n        expect(countVowels('AEIOU')).toBe(5);\n        expect(countVowels('bcdfgh')).toBe(0);\n    });\n});\n"}], "solutions": [{"file_name": "index.js", "content": "function sumOfN(n) {\n  let sum = 0;\n  for (let i = 1; i <= n; i++) {\n    sum += i;\n  }\n  return sum;\n}\n\nfunction printMultiplicationTable(n) {\n  const table = [];\n  for (let i = 1; i <= 10; i++) {\n    table.push(`${n} * ${i} = ${n * i}`);\n  }\n  return table;\n}\n\nfunction countVowels(str) {\n  let count = 0;\n  const vowels = 'aeiouAEIOU';\n  for (let char of str) {\n    if (vowels.includes(char)) {\n      count++;\n    }\n  }\n  return count;\n}\n"}]};
+
+            function renderCodeList(rootElement, codeList, className, titlePrefix) {
+                for (var i = 0; i < codeList.length; i++) {
+                    var elem = codeList[i];
+                    var jsElem = document.createElement("div");
+                    jsElem.className = className;
+                    var jsElemTitle = document.createElement("h3");
+                    jsElemTitle.innerHTML = titlePrefix + " " + (i + 1);
+                    var jsElemBody = document.createElement("code");
+                    jsElemBody.className = "code-block black-block";
+                    jsElemBody.innerHTML = "<pre>" + elem.content + "</pre>";
+                    jsElem.appendChild(jsElemTitle);
+                    jsElem.appendChild(jsElemBody);
+                    rootElement.appendChild(jsElem);
+                }
+            }
+
+            function main() {
+                // display the assignment
+                var codingTitle = document.getElementById("coding-title");
+                codingTitle.innerHTML = quizData.title;
+
+                var codingInstructions = document.getElementById("coding-instructions");
+                if (quizData.hasInstructions) {
+                    codingInstructions.innerHTML = quizData.instructions;
+                } else {
+                    codingInstructions.innerHTML = '<span class="italic-text">' + quizData.instructions + "</span>";
+                }
+
+                // display the test(s)
+                var codingTests = document.getElementById("coding-tests");
+                if (!quizData.hasTests) {
+                    codingTests.innerHTML = '<span class="italic-text">' + quizData.tests + "</span>";
+                } else {
+                    renderCodeList(codingTests, quizData.tests, "coding-test", "Test");
+                }
+
+                // display the solution(s)
+                var codingSolutions = document.getElementById("coding-solutions");
+                if (!quizData.hasSolutions) {
+                    codingSolutions.innerHTML = '<span class="italic-text">' + quizData.solutions + "</span>";
+                } else {
+                    renderCodeList(codingSolutions, quizData.solutions, "coding-solution", "Solution");
+                }
+            }
+        </script>
+    </body>
+</html>
