@@ -45,3 +45,16 @@ output = [3, 4];   // Not allowed: TypeError, cannot reassign a const variable
 | `var`       | Yes                   | Yes                  |
 
 If you want an array or object to be truly immutable, use `Object.freeze()` or similar techniques. */
+
+/* variable are hoisted at top js even if they are declared in other place */
+
+console.log(a); // undefined as variables are hoisted at top of js code but assignement of value (ie 10) and declaration is not done so it is undefined
+var a = 10;
+
+try {
+  console.log(b);
+  let b = 20; 
+}catch(e) {
+  console.log('Reference Error: as b is not declared at top of this code');
+  // that is why it is said to use let because it can easily be debugged as we can get location of reference error but not in case of var
+}
