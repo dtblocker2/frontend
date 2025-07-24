@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Coding Assignment</title>
+
+        <style>
+            body {
+                font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial,
+                    sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+                font-weight: 400;
+                line-height: 22.4px;
+                font-size: 16px;
+            }
+            p,
+            ul,
+            ol {
+                font-size: 16px;
+                font-weight: 400;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-weight: bold;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
+            .code-snippet {
+                background-color: #fff;
+                border: 1px solid #d1d7dc;
+                color: #b4690e;
+                font-size: 90%;
+                padding: 0.2rem 0.4rem;
+            }
+            .code-block {
+                background-color: #fff;
+                color: #b4690e;
+                font-size: 90%;
+            }
+            .black-block {
+                color: #000000;
+            }
+            .italic-text {
+                font-style: italic;
+            }
+        </style>
+    </head>
+
+    <body onload="main()">
+        <h1 id="coding-title"></h1>
+        <div>
+            <h2>Instructions</h2>
+            <div id="coding-instructions"></div>
+        </div>
+        <div>
+            <h2>Test(s)</h2>
+            <div id="coding-tests"></div>
+        </div>
+        <div>
+            <h2>Solution(s)</h2>
+            <div id="coding-solutions"></div>
+        </div>
+
+        <script>
+            const quizData = {"title": "002 Closures in JavaScript", "hasInstructions": true, "hasTests": true, "hasSolutions": true, "instructions": "<p><strong>Task 1: Creating a Counter Using Closures</strong></p><p>Create a function <code>createCounter()</code> that returns a function which increments and returns a counter value each time it is called.</p><p><br></p><p><strong>Task 2: Rate Limiter Function</strong></p><p>Create a function <code>rateLimiter(fn, limit)</code> that returns a new function. The returned function allows calling fn only once within a limit time in milliseconds. If it is called again before the limit is reached, it should return \"Rate limit exceeded\".</p><p><br></p><p><strong>Task 3: Memoization Function</strong></p><p>Write a function <code>memoize(fn)</code> that returns a memoized version of fn. The memoized function should cache the results of function calls, and return the cached result if the same inputs are provided again.</p>", "tests": [{"file_name": "evaluate.js", "content": "describe('subject', function() {\n    it('should return a function that increments the counter', function () {\n  const counter = createCounter();\n  expect(counter()).toBe(1);\n  expect(counter()).toBe(2);\n  expect(counter()).toBe(3);\n});\n\nit('should allow the function to be called only once per limit', function(done) {\n    const limitedFn = rateLimiter(x => x * 2, 1000);\n    \n    expect(limitedFn(2)).toBe(4);   // First call should succeed\n    expect(limitedFn(3)).toBe('Rate limit exceeded'); // Call too soon\n\n    setTimeout(function() {\n      expect(limitedFn(3)).toBe(6);   // Call after limit should succeed\n      done();\n    }, 1000); // Wait for the rate limit to pass\n  });\n  \n  it('should return cached result for the same inputs', function() {\n    const slowFn = memoize((x, y) => x + y);\n    \n    expect(slowFn(1, 2)).toBe(3);   // First call, computes the result\n    expect(slowFn(1, 2)).toBe(3);   // Second call, returns cached result\n\n    expect(slowFn(2, 3)).toBe(5);   // New call, computes again\n  });\n});"}], "solutions": [{"file_name": "index.js", "content": "function createCounter() {\n  let count = 0;\n  return function() {\n    return ++count;\n  };\n}\n\nfunction rateLimiter(fn, limit) {\n  let lastCalled = 0;\n  return function(...args) {\n    const now = Date.now();\n    if (now - lastCalled < limit) {\n      return 'Rate limit exceeded';\n    } else {\n      lastCalled = now;\n      return fn(...args);\n    }\n  };\n}\n\nfunction memoize(fn) {\n  const cache = {};\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (cache[key]) {\n      return cache[key];\n    } else {\n      const result = fn(...args);\n      cache[key] = result;\n      return result;\n    }\n  };\n}"}]};
+
+            function renderCodeList(rootElement, codeList, className, titlePrefix) {
+                for (var i = 0; i < codeList.length; i++) {
+                    var elem = codeList[i];
+                    var jsElem = document.createElement("div");
+                    jsElem.className = className;
+                    var jsElemTitle = document.createElement("h3");
+                    jsElemTitle.innerHTML = titlePrefix + " " + (i + 1);
+                    var jsElemBody = document.createElement("code");
+                    jsElemBody.className = "code-block black-block";
+                    jsElemBody.innerHTML = "<pre>" + elem.content + "</pre>";
+                    jsElem.appendChild(jsElemTitle);
+                    jsElem.appendChild(jsElemBody);
+                    rootElement.appendChild(jsElem);
+                }
+            }
+
+            function main() {
+                // display the assignment
+                var codingTitle = document.getElementById("coding-title");
+                codingTitle.innerHTML = quizData.title;
+
+                var codingInstructions = document.getElementById("coding-instructions");
+                if (quizData.hasInstructions) {
+                    codingInstructions.innerHTML = quizData.instructions;
+                } else {
+                    codingInstructions.innerHTML = '<span class="italic-text">' + quizData.instructions + "</span>";
+                }
+
+                // display the test(s)
+                var codingTests = document.getElementById("coding-tests");
+                if (!quizData.hasTests) {
+                    codingTests.innerHTML = '<span class="italic-text">' + quizData.tests + "</span>";
+                } else {
+                    renderCodeList(codingTests, quizData.tests, "coding-test", "Test");
+                }
+
+                // display the solution(s)
+                var codingSolutions = document.getElementById("coding-solutions");
+                if (!quizData.hasSolutions) {
+                    codingSolutions.innerHTML = '<span class="italic-text">' + quizData.solutions + "</span>";
+                } else {
+                    renderCodeList(codingSolutions, quizData.solutions, "coding-solution", "Solution");
+                }
+            }
+        </script>
+    </body>
+</html>
